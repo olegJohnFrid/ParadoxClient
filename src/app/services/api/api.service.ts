@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http'
 import { Answer, Chat, Question } from 'src/app/interfaces/general.interface';
 
@@ -36,9 +36,9 @@ export class ApiService {
     return this.get<string[]>(url);
   }
 
-  getChatById(id: string = 'QZ8M559'): Observable<Chat[]> {
+  getChatById(id: string): Promise<Chat> {
     const url = this.ChatUrl + '/' + id;
-    return this.get<string[]>(url);
+    return firstValueFrom(this.get<Chat>(url));
   }
 
   post<T>(url: string, body: Object, headers: Object): Observable<any> {
